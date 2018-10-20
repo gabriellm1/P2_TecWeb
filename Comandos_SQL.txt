@@ -1,0 +1,38 @@
+CREATE DATABASE EventNote;
+USE EventNote;
+
+CREATE TABLE Usuarios (
+	id INT NOT NULL AUTO_INCREMENT,
+	user VARCHAR(8) NOT NULL,
+	senha VARCHAR(16) NOT NULL,
+    PRIMARY KEY(id)
+     );
+
+CREATE TABLE Notas (
+	userid INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(32) NOT NULL,
+    data DATE,
+    descri VARCHAR(200) NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (userid) REFERENCES Usuarios(id)
+     );
+
+
+SET GLOBAL time_zone = '-3:00';
+
+
+
+
+
+
+
+INSERT INTO Notas (nome, data, descri)
+VALUES ('Leinin', '20100801','jakcbajkvbajkbvajkbvjakbba');
+
+INSERT INTO Notas (nome, data, descri)
+VALUES ('Mont', '19980525','jakcbajkvbajkbvajkbvjakbba');
+
+SELECT * FROM Notas;
+
+SELECT * FROM Notas WHERE data < '1998-05-30' and data >= '1998-05-03';
