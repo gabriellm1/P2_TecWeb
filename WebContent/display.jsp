@@ -314,6 +314,8 @@ function dadosuser(){
               	    <input style="display: none" type="text" name="uid" id="uid" value="<%=request.getAttribute("uid")%>">
               		<input style="display: none" type="text" name="id" id="noteid" value="<%=nota.getId()%>">
               		<input type="submit" value="Delete" onclick=dadosuser() >
+              		<!-- deletar compartilhar nota -->
+              		<input type="submit" value="Compartilhar" onclick=dadosuser() >
 
           		</article>
 		<% }} %>
