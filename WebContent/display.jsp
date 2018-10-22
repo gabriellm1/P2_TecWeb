@@ -17,7 +17,7 @@
     
     <h3>Novo evento</h3>
     
-    <form action="Adicionar">
+    <form action="notas" method="post">
        <br>
         <input type="text" name="nome"placeholder="Titulo">
         <br>
@@ -28,11 +28,9 @@
         <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
         <input type="submit" name="Save" class="form form-Save" value="Adicionar"> 
       </form>
-       <form action="AttributePasser">
-          <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-          <input style="display: none" type="text" name="local" value="/editar.jsp">
-	      <input type="submit" class="form form-Save" value="Editar">
-      </form>  
+      
+      
+
   
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
@@ -103,6 +101,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 <div class="form-popup" id="myForm">
   <form action ="Config" class="form-container">
     <h1>Configurações</h1>
+    
+
 
 	<form>
 		<input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
@@ -110,20 +110,13 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	</form>
 
 	<form >
-    	<input type="button" name="sair" class="form form-Save" value="Sair"  onclick="window.location='login.jsp';">
+    	<input type="button" name="sair" class="form form-Save" value="Sair"  onclick="window.location='home';">
     </form>
 
-      <form action="AttributePasser">
+      <form action="dados" method="get">
           <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-          <input style="display: none" type="text" name="local" value="/altdados.jsp">
-	      <input type="submit" class="form form-Save" value="Editar">
+	      <input type="submit" class="form form-Save" value="Editar" >
       </form> 
-    
-    <form action=DelUsuario>
-    	<input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-    	<input type="submit"  class="form form-Save" value="Apagar Conta"> 
-    </form>
-    
     <button type="button" class="btn-cancel" onclick="closeForm()">X</button>
   </form>
 </div>
@@ -136,12 +129,36 @@ function openForm() {
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
+
+function dadosuser(){
+	let uid = document.getElementById("uid").value
+	let noteid = document.getElementById("noteid").value
+
+
+	
+	data = {
+		"id":noteid,
+		"uid":uid
+	};
+
+	fetch("/NoteBlock/notas",{
+		method: "delete",
+		body: JSON.stringify(data)})   
+		
+		.then(function(response) {
+				  response.text().then(function(data) {
+					  redirect: window.location.replace(data+"?uid="+uid)
+					  });
+				}	
+)
+		
+}
+
+
+
+
 </script>
- <form action="AttributePasser">
-          <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-          <input style="display: none" type="text" name="local" value="/filtro.jsp">
-		  <input type="image" src="https://www.materialui.co/materialIcons/action/search_white_72x72.png" width="68" height="68" class="filter-button" ></input>
- </form> 
+ 
 </div>
 
 
@@ -170,11 +187,11 @@ function closeForm() {
                   
               	</main>
            
-              	<form action="Remover">
-              	    <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-              		<input style="display: none" type="text" name="id" value="<%=nota.getId()%>">
-              		<input type="submit" value="Delete">
-      			</form>
+					<!-- deletar nota -->
+              	    <input style="display: none" type="text" name="uid" id="uid" value="<%=request.getAttribute("uid")%>">
+              		<input style="display: none" type="text" name="id" id="noteid" value="<%=nota.getId()%>">
+              		<input type="submit" value="Delete" onclick=dadosuser() >
+
           		</article>
 		<% }} %>
 		</table>

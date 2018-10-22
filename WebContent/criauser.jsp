@@ -14,7 +14,7 @@
 	
 	  <div class="login-card">
 	    <h1>Insira seus dados</h1><br>
-	  <form action=usuario method="post">
+	  <form action="usuario" method="post">
 	    <input type="text" name="user" placeholder="Usuário">
 	    <input type="text" name="senha" placeholder="Senha">
 	    <input type="submit" name="Criar conta" class="login login-submit" value="Criar">

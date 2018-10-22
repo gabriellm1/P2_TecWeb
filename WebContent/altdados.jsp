@@ -14,15 +14,71 @@
 	
 	  <div class="login-card">
 	    <h1>Dados</h1><br>
-	  <form action=AltUsuario >
+	    
+	<script>
+		function dados1(){
+			let username = document.getElementById("formuser").value
+			let password = document.getElementById("formsenha").value
+			let userid = document.getElementById("formid").value
+
+			
+			data = {
+				"user":username,
+				"senha":password,
+				"uid":userid
+			}
+
+			fetch("/NoteBlock/usuario",{
+				method: "put",
+				body: JSON.stringify(data)})		.then(function(response) {
+					  response.text().then(function(data) {
+						  redirect: window.location.replace(data+"?uid="+userid)})
+						  });
+				}
+		
+		function dados2(){
+			let username = document.getElementById("formuser").value
+			let password = document.getElementById("formsenha").value
+			let userid = document.getElementById("formid").value
+
+			
+			data = {
+				"user":username,
+				"senha":password,
+				"uid":userid
+			}
+
+			fetch("/NoteBlock/usuario",{
+				method: "delete",
+				body: JSON.stringify(data)})		.then(function(response) {
+					  response.text().then(function(data) {
+							  redirect: window.location.replace("home")
+						  })
+					  
+				})
+ }
+	    
+
+	</script>
+	    
 	  <%@ page import="java.util.*,br.insper.noteblock.model.*"  %>
 	  <% 	DAO dao = new DAO();
 	  Usuario atual = dao.showUser((Integer.parseInt((String)request.getAttribute("uid"))));%>
-	  	<input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
-	    <input type="text" name="user" value="<%=atual.getUser()%>">
-	    <input type="senha" name="senha" value="<%=atual.getSenha()%>">
-	    <input type="submit" name="alterar" class="login login-submit" value="Alterar dados">
-	  </form>
+	  	
+	   <!-- opção de editar conta -->
+	   <div>
+	  	<input style="display: none" type="text" id="formid" name="uid" value="<%=request.getAttribute("uid")%>">
+	    <input type="text" id="formuser" name="user" value="<%=atual.getUser()%>">
+	    <input type="text"  id="formsenha" name="senha" value="<%=atual.getSenha()%>">
+	    <input onclick=dados1() type="button" name="alterar" class="botaoscript" value="Alterar dados">
+	   </div>
+	   
+	   
+	   <div> 
+	    <!-- opção de apagar conta -->
+    	<input type="button" onclick=dados2() class="form form-Save" class="botaoscript" value="Apagar Conta"> 
+	   </div>
+		
 	</div>
 	
 	</body>
