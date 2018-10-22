@@ -22,5 +22,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Usuario/Desktop/apache-maven-3.5.4-bin/apache-maven-3.5.4/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Usuario/Desktop/apache-tomcat-9.0.10-windows-x64/apache-tomcat-9.0.10/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

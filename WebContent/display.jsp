@@ -1,9 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="ISO-8859-1">
+		<meta charset="UTF-8">
 		<title>Criando Cards</title>
 		  <link rel = "stylesheet"
 			type ="text/css"
@@ -15,16 +13,141 @@
 
   <div class="sidenav">
     
-    <h3>Novo evento</h3>
+     <h3>NBA Calendar</h3>
+     <%@ page import = "org.jsoup.Jsoup,org.jsoup.nodes.Document,org.jsoup.nodes.Element,org.jsoup.select.Elements,java.io.IOException,java.util.ArrayList,java.util.List,java.util.Scanner"
+		%>
     
     <form action="notas" method="post">
        <br>
-        <input type="text" name="nome"placeholder="Titulo">
+      <select onchange="valT()"  name="nome" id="chooseTeam">
+        </select>     
+        
+        <% 
+	  	  Document doc;
+	
+	      	doc = Jsoup.connect("http://www.nba.com/teams").get(); // NAME
+	          Elements names = doc.select("div.team__list a");
+	        
+	          ArrayList<String> teams = new ArrayList<String>();
+	
+	          for (Element name : names) {
+	        	  teams.add(name.text());
+		          }    
+        %>
+        
+       <script>
+         
+		function valT()
+		 {
+		     var userSelection = document.getElementById("chooseTeam").value;
+		     detailsIframe.src="/display.jsp?selection="+userSelection;
+		}
+       
+        var arr = [<% for (int i = 0; i < teams.size(); i++) { %>"<%= teams.get(i) %>"<%= i + 1 < teams.size() ? ",":"" %><% } %>];
+            var select = document.getElementById("chooseTeam"),arr;
+             
+             for(var i = 0; i < arr.length; i++)
+             {
+                 var option = document.createElement("OPTION"),
+                     txt = document.createTextNode(arr[i]);
+                 option.appendChild(txt);
+                 option.setAttribute("value",arr[i]);
+                 select.insertBefore(option,select.lastChild);
+             }
+             
+        </script>
+         <br>
+		<select onchange="valM()" name="match" id="match">
+            <option value="Jogo">Jogo</option>
+        </select>  
+         <%
+	        String e = "Utah Jazz";// request.getParameter("chooseTeam");
+	        String lName = e.toLowerCase();
+	        String lastName = lName.substring(lName.lastIndexOf(" ")+1);
+        
+        	doc = Jsoup.connect("http://www.nba.com/"+lastName+"/schedule").get(); //DATE
+        
+	        Elements links = doc.select("span.date.etowah-schedule__event_datetime__date.etowah-schedule__event--game__datetime__date");
+	        Elements descri = doc.select("span.element-invisible");
+	        Elements opponent = doc.select("div.etowah-schedule__event__opponent-logo img");
+	        
+	        List<String> matches = new ArrayList<String>();
+            List<String> descriL = new ArrayList<String>();
+            List<String> dateL = new ArrayList<String>();
+
+
+            for (int d=4; d<=40+4; d+=2) {  
+            	String desc = descri.get(d).text();
+            	descriL.add(desc);
+			}
+            
+            for (int i=0; i<=20; i++) {  
+            	if (links.size()!=0) {
+	            	String  date = links.get(i).text().substring(links.get(i).text().lastIndexOf(" ")-3);
+	            	dateL.add(date);
+	            	String opp =  opponent.get(i).attr("alt");
+	            	String desc = descriL.get(i);
+
+					String ma = ("Contra "+opp+" em : "+date);
+					matches.add(ma);
+				}
+            }
+	     %>
+        <script>
+        
+	    	var a = "<%= e %>";
+            document.getElementById('chooseTeam').value = a;
+	    	var e = document.getElementById("chooseTeam");
+	    	var strUser = e.options[e.selectedIndex].text;
+	    	console.log(strUser);
+	    	console.log(a)
+	    	
+	    	var arrMa = [<% for (int i = 0; i < matches.size(); i++) { %>"<%= matches.get(i) %>"<%= i + 1 < matches.size() ? ",":"" %><% } %>];
+
+            var select = document.getElementById("match"),arrMa;
+            
+             for(var i = 0; i < arrMa.length; i++)
+             {
+                 var option = document.createElement("OPTION"),
+                 txt = document.createTextNode(arrMa[i]);
+                 option.appendChild(txt);
+                 option.setAttribute("value",arrMa[i]);
+                 select.insertBefore(option,select.lastChild);
+             }
+             
+        </script>    
+      
+      
         <br>
-        <input type="text" name="descri" placeholder="Descrição">
-        <br>
+        
+        <script>
+        
+	       function valM() {
+	    	    var d = document.getElementById("match").value;
+	    	    var index = arrMa.indexOf(d); 
+		    	var arrDe = [<% for (int i = 0; i < descriL.size(); i++) { %>"<%= descriL.get(i) %>"<%= i + 1 < descriL.size() ? ",":"" %><% } %>];
+		    	var arrDt = [<% for (int i = 0; i < dateL.size(); i++) { %>"<%= dateL.get(i) %>"<%= i + 1 < dateL.size() ? ",":"" %><% } %>];
+
+	    	    var desc = arrDe[index];
+	    	    var date = arrDt[index];
+	    	    document.getElementById('descri').value = desc;
+	    	    var months = ["Jan","Fev","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+	    	    var n = date.split(" ");
+	    	    var day =  n[1];
+	    	    var mon = months.indexOf(n[0])+1;
+	    	    if(parseInt(mon, 10)<10){
+	    	    	mon = "0"+mon;
+	    	    }
+	    	    var cDate = "2018-"+mon+"-"+day;
+	    	    document.getElementById('myDate').value = cDate;
+	    	}
+	       
+		</script>
+        
+        <textarea name = "descri" id="descri" rows="10" cols="24">Sobre o Jogo ...</textarea>
+        
         <input type="date" id="myDate" name="data" value="Data">
-        <br>
+        
         <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
         <input type="submit" name="Save" class="form form-Save" value="Adicionar"> 
       </form>
@@ -100,7 +223,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 <div class="form-popup" id="myForm">
   <form action ="Config" class="form-container">
-    <h1>Configurações</h1>
+    <h1>ConfiguraÃ§Ãµes</h1>
     
 
 
