@@ -15,17 +15,21 @@
 	  <div class="login-card">
 	    <h1>Compartilhar Jogo</h1><br>
 	    
+
+	  <form action="message" method="post">
+	    <input type="text" name="telefone" placeholder="Número de Celular">
+	   	<input style="display: none" type="text" name="descri" value="<%=request.getAttribute("descri")%>">
+	    <input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
 	    
-	  <form action="sendSMS"  method="get">
-	  	<input type="text" name="msg" placeholder="Mensagem...">
-	    <input type="text" name="num" placeholder="Número de Celular">
-	    <input type="submit" name="send" class="login login-submit" value="Enviar SMS">
+	    <input type="submit" name="send" class="login login-submit" value="Enviar SMS" >
 	  </form>
 	
 	  <div class="login-help">
-	    <a href="display.jsp">Cancelar</a>
+	    <a href="notas?"+"<%=request.getAttribute("uid")%>">Voltar</a>
 	  </div>
 	</div>
+	
+
 	
 	</body>
 </html>

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
 public class DAO {
 	
 private Connection connection = null;
@@ -271,6 +275,20 @@ public DAO() {
 		
 		return usuario ;
 		}
+	
+	public static void message(String descri,String telefone) {
+	    Twilio.init("ACfb4c05aed19037ee06889c55850b33ef", "55cc0df8fa4ac196a59569f8811a1c7c");
+	 
+
+	    
+	    Message message = Message.creator(new com.twilio.type.PhoneNumber("whatsapp:"+telefone),new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+                 
+		        descri
+		        ).create();
+
+
+	  
+	  }
 
 	
 	

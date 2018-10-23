@@ -285,6 +285,31 @@ function dadosuser(){
 }
 
 
+function message(){
+	let uid = document.getElementById("uid").value
+	let descri = document.getElementById("cont").value
+
+
+	
+	data = {
+		"descri":descri,
+		"uid":uid
+	};
+
+	fetch("/NoteBlock/message",{
+		method: "post",
+		body: JSON.stringify(data)})   
+		
+		.then(function(response) {
+				  response.text().then(function(data) {
+					  redirect: window.location.replace(data+"?uid="+uid)
+					  });
+				}	
+)
+		
+}
+
+
 
 
 </script>
@@ -321,9 +346,15 @@ function dadosuser(){
               	    <input style="display: none" type="text" name="uid" id="uid" value="<%=request.getAttribute("uid")%>">
               		<input style="display: none" type="text" name="id" id="noteid" value="<%=nota.getId()%>">
               		<input type="submit" value="Delete" onclick=dadosuser() >
-              		<!-- deletar compartilhar nota -->
-              		<input type="submit" value="Compartilhar" onclick=dadosuser() >
-
+              		
+              		
+              		<!-- compartilhar nota -->
+              		<form action="message" method="get">
+        			<input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
+			       	<input style="display: none" type="text" name="cont" id="cont" value="<%=nota.getDescri()%>">
+			          
+				      <input type="submit" class="form form-Save" value="Compartilhar com amigo" >
+					</form>
           		</article>
 		<% }} %>
 		</table>
