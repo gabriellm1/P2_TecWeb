@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -80,25 +81,53 @@
 	        
 	        List<String> matches = new ArrayList<String>();
             List<String> descriL = new ArrayList<String>();
+            List<String> descriL2 = new ArrayList<String>();
+
             List<String> dateL = new ArrayList<String>();
 
-
-            for (int d=4; d<=40+4; d+=2) {  
-            	String desc = descri.get(d).text();
-            	descriL.add(desc);
+			if (descri.size() < 20){
+	            for (int d=4; d<=40+4; d+=2) {  
+	            
+	            	descriL.add("Serviço Indisponivel");
+				}
+			}
+			
+			else{
+			 for (int d=4; d<=40+4; d+=2) {  
+					String desc = descri.get(d).text();
+	            	descriL.add(desc);
+				}
 			}
             
             for (int i=0; i<=20; i++) {  
-            	if (links.size()!=0) {
-	            	String  date = links.get(i).text().substring(links.get(i).text().lastIndexOf(" ")-3);
-	            	dateL.add(date);
-	            	String opp =  opponent.get(i).attr("alt");
-	            	String desc = descriL.get(i);
+	            	
+            		if(links.size()!=0){
+	            		String  date = links.get(i).text().substring(links.get(i).text().lastIndexOf(" ")-3);
+		            	dateL.add(date);
+		            	String opp =  opponent.get(i).attr("alt");
+		            	String desc = descriL.get(i);
 
-					String ma = ("Contra "+opp+" em : "+date);
-					matches.add(ma);
-				}
+		            	if (desc.equals("expand game info")){
+		            		desc = ("Contra "+opp+" em : "+date);
+		            		descriL2.add(desc);
+		            	}
+		            	else{
+		            		descriL2.add(desc);
+		            	}
+						
+						String ma = ("Contra "+opp+" em : "+date);
+						matches.add(ma);
+
+            		} 
+					if(links.size() ==0){
+						String ma = "Serviço Indisponivel";
+						matches.add(ma);
+
+					}
+				
             }
+            
+           
 	     %>
         <script>
         
@@ -132,7 +161,7 @@
 	       function valM() {
 	    	    var d = document.getElementById("match").value;
 	    	    var index = arrMa.indexOf(d); 
-		    	var arrDe = [<% for (int i = 0; i < descriL.size(); i++) { %>"<%= descriL.get(i) %>"<%= i + 1 < descriL.size() ? ",":"" %><% } %>];
+		    	var arrDe = [<% for (int i = 0; i < descriL2.size(); i++) { %>"<%= descriL2.get(i) %>"<%= i + 1 < descriL2.size() ? ",":"" %><% } %>];
 		    	var arrDt = [<% for (int i = 0; i < dateL.size(); i++) { %>"<%= dateL.get(i) %>"<%= i + 1 < dateL.size() ? ",":"" %><% } %>];
 
 	    	    var desc = arrDe[index];
@@ -288,14 +317,11 @@ function dadosuser(){
 function message(){
 	let uid = document.getElementById("uid").value
 	let descri = document.getElementById("cont").value
-
-
 	
 	data = {
 		"descri":descri,
 		"uid":uid
 	};
-
 	fetch("/NoteBlock/message",{
 		method: "post",
 		body: JSON.stringify(data)})   
@@ -308,8 +334,6 @@ function message(){
 )
 		
 }
-
-
 
 
 </script>
@@ -346,13 +370,11 @@ function message(){
               	    <input style="display: none" type="text" name="uid" id="uid" value="<%=request.getAttribute("uid")%>">
               		<input style="display: none" type="text" name="id" id="noteid" value="<%=nota.getId()%>">
               		<input type="submit" value="Delete" onclick=dadosuser() >
-              		
-              		
               		<!-- compartilhar nota -->
               		<form action="message" method="get">
         			<input style="display: none" type="text" name="uid" value="<%=request.getAttribute("uid")%>">
 			       	<input style="display: none" type="text" name="cont" id="cont" value="<%=nota.getDescri()%>">
-			          
+
 				      <input type="submit" class="form form-Save" value="Compartilhar com amigo" >
 					</form>
           		</article>
