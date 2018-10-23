@@ -23,7 +23,7 @@ public DAO() {
 	}
 	 try {
 		connection = DriverManager.getConnection(
-		"jdbc:mysql://localhost/EventNote", "root", "116319");
+		"jdbc:mysql://localhost/EventNote", "root", "tecweb");
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

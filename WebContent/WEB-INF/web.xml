@@ -60,4 +60,15 @@
   <servlet-name>notas</servlet-name>
   <url-pattern>/NoteBlock/notas</url-pattern>
 </servlet-mapping>
+
+<servlet>
+  <servlet-name>nba</servlet-name>
+  <servlet-class>br.insper.noteblock.controller.ApiController</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>nba</servlet-name>
+  <url-pattern>/NoteBlock/nbas</url-pattern>
+</servlet-mapping>
+
 </web-app>

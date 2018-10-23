@@ -19,7 +19,7 @@
     
     <form action="notas" method="post">
        <br>
-      <select onchange="valT()"  name="nome" id="chooseTeam">
+      <select onchange="valT()"  name="nome" id="chooseTeam" onclick>
         </select>     
         
         <% 
@@ -39,9 +39,12 @@
          
 		function valT()
 		 {
-		     var userSelection = document.getElementById("chooseTeam").value;
-		     detailsIframe.src="/display.jsp?selection="+userSelection;
-		}
+		     var time = document.getElementById("chooseTeam").value;
+			let uid = document.getElementById("uid").value;
+			redirect: window.location.replace("/NoteBlock/notas"+"?uid="+uid+"&time="+time)
+					}
+		     
+		
        
         var arr = [<% for (int i = 0; i < teams.size(); i++) { %>"<%= teams.get(i) %>"<%= i + 1 < teams.size() ? ",":"" %><% } %>];
             var select = document.getElementById("chooseTeam"),arr;
@@ -61,7 +64,11 @@
             <option value="Jogo">Jogo</option>
         </select>  
          <%
-	        String e = "Utah Jazz";// request.getParameter("chooseTeam");
+         	String e = request.getParameter("time");
+			if(request.getParameter("time")==null){
+				e = "Cleveland Cavaliers";
+			}
+
 	        String lName = e.toLowerCase();
 	        String lastName = lName.substring(lName.lastIndexOf(" ")+1);
         

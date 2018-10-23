@@ -17,7 +17,8 @@
 	    
 	    
 	  <form action="usuario"  method="get">
-	  	<input type="text" name="user" placeholder="Usuário">
+	    <input style="display: none" type="text" name="time" id="time" value="Miami Heat"><!-- Setando atlanta hawks como time default -->
+	 	<input type="text" name="user" placeholder="Usuário">
 	    <input type="text" name="senha" placeholder="Senha">
 	    <input type="submit" name="login" class="login login-submit" value="Login">
 	  </form>
